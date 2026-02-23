@@ -1,0 +1,234 @@
+/* Global reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #f0f4ff 0, #e5ecff 30%, #f6f7fb 100%);
+  color: #222;
+  font-family: "Times New Roman", Times, serif !important;
+}
+
+/* Main app container (your Form has className="App") */
+.App {
+  max-width: 600px;
+  margin: 40px auto 16px;
+  padding: 24px 28px 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+.App h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  text-align: center;
+  color: #111827;
+}
+
+/* Input at the top */
+.App .form-group {
+  margin-bottom: 0;
+}
+
+#todo {
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  padding: 10px 14px;
+  font-size: 0.98rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#todo::placeholder {
+  color: #9ca3af;
+}
+
+#todo:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* To-do list panel */
+.todo-list {
+  max-width: 600px;
+  margin: 8px auto 40px;
+  padding: 20px 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.09);
+}
+
+.todo-list h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #111827;
+}
+
+.todo-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Each item row — your li + buttons */
+.todo-list li {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  background-color: #f9fafb;
+  border-radius: 999px;
+  padding: 8px 14px;
+  margin: 6px 0;
+  font-size: 0.98rem;
+  color: #111827;
+}
+
+.todo-text {
+  flex: 1;                  /* take up all the free space */
+  min-width: 0;             /* allow shrinking inside flex */
+  overflow-wrap: break-word; /* allow breaking long words */
+  word-break: break-word;    /* extra safety for very long strings */
+}
+
+/* Buttons that follow the li */
+.todo-list li .btn {
+  margin-left: auto;
+}
+
+.todo-list li .btn + .btn {
+  margin-left: 4px;
+}
+
+/* General button polish (overriding Bootstrap a bit) */
+.btn {
+  border-radius: 999px;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+  border: none;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.1s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+  opacity: 0.95;
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.2);
+}
+
+/* Slightly custom colors for danger / primary / secondary */
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+/* Make the list content align better on small screens */
+@media (max-width: 480px) {
+  .todo-list li {
+    display: block;
+  }
+
+  .todo-list li + .btn,
+  .todo-list li + .btn + .btn {
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 6px;
+    margin-top: 4px;
+  }
+}
+
+/* Modal polish (Reactstrap/Bootstrap classes) */
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
+}
+
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 8px;
+}
+
+.modal-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.modal-body {
+  padding-top: 4px;
+  padding-bottom: 8px;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+/* Input inside modal */
+#editTodo {
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+}
+
+#editTodo:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+/* ===== Animated Title for .App h1 ===== */
+
+.App h1 {
+  animation: floatTitle 4s ease-in-out infinite;
+  position: relative;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Floating + scaling animation */
+@keyframes floatTitle {
+  0% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-6px) scale(1.03);
+    opacity: 0.97;
+  }
+  50% {
+    transform: translateY(0px) scale(1.05);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-3px) scale(1.02);
+    opacity: 0.98;
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
