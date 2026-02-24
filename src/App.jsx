@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import {Label, Form, FormGroup, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import './App.css'
 
-function TodoItem({item, index, handleDeleteTodoItem, handleEditTodoItem}) {
+function TodoItem({todo, handleDeleteTodoItem, handleEditTodoItem}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [editValue, setEditValue] = useState(item);
+  const [editValue, setEditValue] = useState(todo.item);
 
-  const saveEdit = (index, newValue) => {
+  const saveEdit = (newValue) => {
     if (newValue.trim() !== '') {
-      handleEditTodoItem(index, newValue);
+      handleEditTodoItem(todo.id, newValue);
       setIsOpen(false);
     }
   }
@@ -16,8 +16,8 @@ function TodoItem({item, index, handleDeleteTodoItem, handleEditTodoItem}) {
   return (
     <>
       <li>
-        <span className="todo-text">{item}</span>
-        <Button color="danger" onClick={() => handleDeleteTodoItem(index)}>Delete</Button>
+        <span className="todo-text">{todo.item}</span>
+        <Button color="danger" onClick={() => handleDeleteTodoItem(todo.id)}>Delete</Button>
         <Button color="primary" onClick={() => setIsOpen(true)}>Edit</Button>
       </li>
       <Modal isOpen={isOpen}>
@@ -26,13 +26,13 @@ function TodoItem({item, index, handleDeleteTodoItem, handleEditTodoItem}) {
           <FormGroup>
             <Label for="editTodo">To-Do Item</Label>
             <Input type="text" name="editTodo" id="editTodo" value={editValue} onKeyDown={(e) => { if (e.key === 'Enter') {
-              saveEdit(index, editValue);
+              saveEdit(editValue);
             }}} onChange={(e) => setEditValue(e.target.value)} />
           </FormGroup>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={() => {
-            saveEdit(index, editValue);
+            saveEdit(editValue);
           }}>Save</Button>{' '}
           <Button color="secondary" onClick={() => {setIsOpen(false)}}>Cancel</Button>
         </ModalFooter>
@@ -51,8 +51,7 @@ function App() {
     fetch('https://duythinh-todo-backend.up.railway.app/todos')
       .then(response => response.json())
       .then(data => {
-        const onlyItems = data.map(obj => obj.item);
-        setTodoItems(onlyItems);
+        setTodoItems(data);
       })
       .catch(error => console.error('Error fetching to-do items:', error));
   }
@@ -86,8 +85,8 @@ function App() {
     }
   }
 
-  function handleDeleteTodoItem(index) {
-    fetch(`https://duythinh-todo-backend.up.railway.app/todos/${index+1}`, {
+  function handleDeleteTodoItem(todoId) {
+    fetch(`https://duythinh-todo-backend.up.railway.app/todos/${todoId}`, {
       method: 'DELETE',
     })
       .then((response) => {
@@ -105,8 +104,8 @@ function App() {
       });
   }
 
-  function handleEditTodoItem(index, newValue) {
-    fetch(`https://duythinh-todo-backend.up.railway.app/todos/${index+1}`, {
+  function handleEditTodoItem(todoId, newValue) {
+    fetch(`https://duythinh-todo-backend.up.railway.app/todos/${todoId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +115,7 @@ function App() {
     .then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');   
-   }
+      }
       return response.json();
     }).then((data) => {
       console.log('Success:', data);
@@ -139,8 +138,8 @@ function App() {
         <div className="todo-list">
           <h2>Your To-Do Items:</h2>
           <ul>
-            {todoItems.map((item, index) => (
-              <TodoItem key={index} item={item} index={index} 
+            {todoItems.map((todo) => (
+              <TodoItem key={todo.id} todo={todo} 
               handleDeleteTodoItem={handleDeleteTodoItem} 
               handleEditTodoItem={handleEditTodoItem}/>
             ))}

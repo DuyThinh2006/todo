@@ -9,11 +9,6 @@ def connect():
     db_port = os.environ.get('DB_PORT')
     db_name = os.environ.get('DB_NAME')
 
-    # --- ADD THESE TWO PRINT STATEMENTS ---
-    password_exists = db_password is not None
-    print(f"DEBUG - User: {db_user}, Host: {db_host}, Port: {db_port}, DB: {db_name}, Password Exists: {password_exists}")
-    # --------------------------------------
-
     if db_user and db_password and db_host:
         print("DEBUG - Successfully entered the cloud database IF statement!")
         return psycopg2.connect(
