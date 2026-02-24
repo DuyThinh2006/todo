@@ -39,8 +39,6 @@ class TodoItemApi(Resource):
         return {'message': 'Item not found'}, 404
 
     def delete(self, todo_id):
-        sql = "DELETE FROM todo_items WHERE id = %(id)s RETURNING id;"
-        deleted_id = exec_get_one(sql, {'id': todo_id})
-        if deleted_id:
-            return {'message': 'Item deleted'}, 200
-        return {'message': 'Item not found'}, 404
+        sql = "DELETE FROM todo_items WHERE id = %(id)s;"
+        exec_commit(sql, {'id': todo_id})
+        return {'message': 'Item deleted'}, 200
