@@ -48,7 +48,7 @@ function App() {
   }, []);
 
   function loadTodoItems() {
-    fetch('http://localhost:5000/todos')
+    fetch('duythinh-todo-backend.up.railway.app')
       .then(response => response.json())
       .then(data => {
         const onlyItems = data.map(obj => obj.item);
@@ -61,7 +61,7 @@ function App() {
     if (event.key === 'Enter' && event.target.value.trim() !== '') {
       event.preventDefault();
       const newItem = event.target.value;
-      fetch(`http://localhost:5000/todos`, {
+      fetch(`https://duythinh-todo-backend.up.railway.app/todos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ function App() {
   }
 
   function handleEditTodoItem(index, newValue) {
-    fetch(`http://localhost:5000/todos/${index+1}`, {
+    fetch(`https://duythinh-todo-backend.up.railway.app/todos/${index+1}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
