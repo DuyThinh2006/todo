@@ -1,5 +1,0 @@
-host: localhost
-database: small_project
-user: small_project
-password: Smallproject12345
-port: 5432
