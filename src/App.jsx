@@ -87,8 +87,22 @@ function App() {
   }
 
   function handleDeleteTodoItem(index) {
-    const updatedItems = todoItems.filter((_, i) => i !== index);
-    setTodoItems(updatedItems);
+    fetch(`https://duythinh-todo-backend.up.railway.app/todos/${index+1}`, {
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Deleted:', data);
+        loadTodoItems();
+      })
+      .catch((error) => {
+        console.error('Error deleting to-do item:', error);
+      });
   }
 
   function handleEditTodoItem(index, newValue) {
